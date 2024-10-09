@@ -48,4 +48,28 @@ public class SerializeSupport {
         }
     }
 
+    public static <E> E parse(byte[] buffer) {
+        return parse(buffer, 0, buffer.length);
+    }
+
+    public static <E> E parse(byte[] buffer, int offset, int length) {
+        byte type = parseEntryType(buffer);
+        @SuppressWarnings("unchecked")
+        Class<E> eClass = (Class<E>) typeMap.get(type);
+        if (null == eClass) {
+            throw new SerializeException(String.format("Unknown entry type: %d", type));
+        } else {
+            return parse(buffer, offset, length, eClass);
+        }
+    }
+
+    /**
+     * 得到序列化器的类型
+     * @param buffer 进行反序列化的数组
+     * @return 序列化器类型
+     */
+    private static byte parseEntryType(byte[] buffer) {
+        return buffer[0];
+    }
+
 }

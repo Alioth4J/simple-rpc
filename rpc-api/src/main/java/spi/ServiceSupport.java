@@ -1,8 +1,10 @@
 package spi;
 
+import java.util.Collection;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.ServiceLoader;
+import java.util.stream.Collectors;
 import java.util.stream.StreamSupport;
 
 /**
@@ -25,12 +27,18 @@ public class ServiceSupport {
                 .findFirst().orElseThrow(ServiceLoadException::new);
     }
 
+    public static synchronized <S> Collection<S> loadAll(Class<S> service) {
+        return StreamSupport.stream(ServiceLoader.load(service).spliterator(), false)
+                .map(ServiceSupport::singletonFilter)
+                .collect(Collectors.toList());
+    }
+
     @SuppressWarnings("unchecked")
     private static <S> S singletonFilter(S service) {
         if (service.getClass().isAnnotationPresent(Singleton.class)) {
             String className = service.getClass().getCanonicalName();
             Object singletonInstance = singletonServices.putIfAbsent(className, service);
-            return singletonInstance == null ? service : singletonInstance;
+            return singletonInstance == null ? service : (S) singletonInstance;
         } else {
             return service;
         }

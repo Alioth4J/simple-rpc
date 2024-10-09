@@ -23,6 +23,11 @@
             <artifactId>netty-all</artifactId>
             <version>4.1.92.Final</version>
         </dependency>
+        <dependency>
+            <groupId>com.alioth4j</groupId>
+            <artifactId>rpc-api</artifactId>
+            <version>1.0-SNAPSHOT</version>
+        </dependency>
     </dependencies>
 
 </project>

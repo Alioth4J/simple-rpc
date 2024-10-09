@@ -1,7 +1,16 @@
+import spi.ServiceSupport;
+
 import java.io.Closeable;
 import java.net.URI;
+import java.util.Collection;
 
 public interface RpcAccessPoint extends Closeable {
+
+    /**
+     * 启动 PRC 框架
+     * @return 服务实例，用于程序停止时安全关闭服务
+     */
+    Closeable startServer() throws Exception;
 
     /**
      * 服务端注册服务实现的实例
@@ -22,9 +31,22 @@ public interface RpcAccessPoint extends Closeable {
     <T> T getRemoteService(URI uri, Class<T> serviceClass);
 
     /**
-     * 启动 PRC 框架
-     * @return 服务实例，用于程序停止时安全关闭服务
+     * 获取注册中心的引用
+     * @param nameServerUri 注册中心的 URI
+     * @return 注册中心的引用
      */
-    Closeable startServer() throws Exception;
+    default NameServer getNameServer(URI nameServerUri) {
+        // 获得所有注册中心
+        Collection<NameServer> nameServers = ServiceSupport.loadAll(NameServer.class);
+        // 遍历所有注册中心
+        for (NameServer nameServer : nameServers) {
+            // 比对是否支持协议
+            if (nameServer.supportedSchemes().contains(nameServerUri.getScheme())) {
+                nameServer.connect(nameServerUri);
+                return nameServer;
+            }
+        }
+        return null;
+    }
 
 }
