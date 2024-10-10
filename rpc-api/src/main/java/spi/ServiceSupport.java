@@ -16,13 +16,14 @@ public class ServiceSupport {
     private static final Map<String, Object> singletonServices = new HashMap<>();
 
     /**
-     * 通过 SPI 加载实现类
-     * @param service
-     * @return
-     * @param <S>
+     * 通过 SPI 加载指定服务类
+     * @param serviceClass 服务类
+     * @return 服务实例
+     * @param <S> 服务的类型
      */
-    public static synchronized <S> S load(Class<S> service) {
-        return StreamSupport.stream(ServiceLoader.load(service).spliterator(), false)
+    public static synchronized <S> S load(Class<S> serviceClass) {
+        return StreamSupport.stream(ServiceLoader.load(serviceClass).spliterator(), false)
+                // 单例模式用单例
                 .map(ServiceSupport::singletonFilter)
                 .findFirst().orElseThrow(ServiceLoadException::new);
     }

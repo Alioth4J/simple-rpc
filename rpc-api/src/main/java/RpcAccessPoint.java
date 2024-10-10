@@ -4,10 +4,13 @@ import java.io.Closeable;
 import java.net.URI;
 import java.util.Collection;
 
+/**
+ * RPC 服务暴露接口
+ */
 public interface RpcAccessPoint extends Closeable {
 
     /**
-     * 启动 PRC 框架
+     * 启动 RPC 框架
      * @return 服务实例，用于程序停止时安全关闭服务
      */
     Closeable startServer() throws Exception;
@@ -26,7 +29,7 @@ public interface RpcAccessPoint extends Closeable {
      * @param uri 服务地址
      * @param serviceClass 服务接口
      * @return 服务实例
-     * @param <T> 服务接口
+     * @param <T> Stub 的实例
      */
     <T> T getRemoteService(URI uri, Class<T> serviceClass);
 

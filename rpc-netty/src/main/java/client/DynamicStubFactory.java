@@ -5,7 +5,7 @@ import transport.Transport;
 /**
  * Stub 工厂的具体实现类
  */
-public class DynamicStubFactory implements StubFactory{
+public class DynamicStubFactory implements StubFactory {
 
     // Stub 的具体实现类的模板源码
     private static final String STUB_SOURCE_TEMPLATE =

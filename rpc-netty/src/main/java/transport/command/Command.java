@@ -7,7 +7,7 @@ public class Command {
 
     // 请求头
     protected Header header;
-    // 请求载荷，也就是序列化后的数据
+    // 请求载荷，序列化后的 RpcRequest
     private byte[] payload;
 
     public Command(Header header, byte[] payload) {
