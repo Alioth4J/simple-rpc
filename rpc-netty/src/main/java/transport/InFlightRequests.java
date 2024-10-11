@@ -7,6 +7,7 @@ import java.util.concurrent.*;
 
 /**
  * 正在处理的异步请求
+ * 由 Client 创建
  */
 public class InFlightRequests implements Closeable {
 

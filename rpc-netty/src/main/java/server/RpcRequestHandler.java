@@ -25,7 +25,7 @@ public class RpcRequestHandler implements RequestHandler, ServiceProviderRegistr
     /**
      * 存储 serviceProvider 的集合
      */
-    private Map<String/* serviceName */, Object/* serviceProvider */> serviceProviders = new HashMap<>();
+    private Map<String/* serviceName, interfaceName */, Object/* serviceProvider */> serviceProviders = new HashMap<>();
 
     @Override
     public synchronized <T> void addServiceProvider(Class<? extends T> serviceClass, T serviceProvider) {
